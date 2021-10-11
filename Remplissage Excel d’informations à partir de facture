@@ -1,0 +1,223 @@
+Sub fichier() 
+
+     
+
+    Application.ScreenUpdating = False 
+
+    Application.DisplayAlerts = False 
+
+     
+
+    Dim x As String 
+
+    Dim Count As Integer 
+
+    Dim Count2 As Integer 
+
+     
+
+    Sheets("List").Select 
+
+     
+
+    For I = 509 To 514 
+
+         
+
+        Count = 1 
+
+         
+
+        x = Range("M" & I).Value 
+
+         
+
+        Do While Not IsNumeric(Mid(x, Count, 1)) 
+
+            Range("A" & I).Value = CStr(Range("A" & I).Value) + Mid(x, Count, 1) 
+
+            Count = Count + 1 
+
+        Loop 
+
+         
+
+        Do While IsNumeric(Mid(x, Count, 1)) Or Asc(Mid(x, Count, 1)) = 32 
+
+            Range("B" & I).Value = Range("B" & I).Value & Mid(x, Count, 1) 
+
+            Count = Count + 1 
+
+        Loop 
+
+         
+
+        Do While Not IsNumeric(Mid(x, Count, 1)) 
+
+            Range("C" & I).Value = Range("C" & I).Value & Mid(x, Count, 1) 
+
+            Count = Count + 1 
+
+        Loop 
+
+         
+
+        Do While IsNumeric(Mid(x, Count, 1)) Or Asc(Mid(x, Count, 1)) = 47 Or Mid(x, Count, 1) = " " Or Asc(Mid(x, Count, 1)) = 45 
+
+            Range("D" & I).Value = CStr(Range("D" & I).Value) & Mid(x, Count, 1) 
+
+            Count = Count + 1 
+
+        Loop 
+
+         
+
+        Range("D" & I).Value = CStr(Range("D" & I).Value) & Space(1) & "" 
+
+         
+
+        Do While Asc(Mid(x, Count, 1)) < 97 Or Asc(Mid(x, Count, 1)) > 122 
+
+            Range("D" & I).Value = Range("D" & I).Value & Mid(x, Count, 1) 
+
+            Count = Count + 1 
+
+        Loop 
+
+         
+
+        Range("D" & I).Value = Left(Range("D" & I).Value, Len(Range("D" & I).Value) - 1) 
+
+        Count = Count - 1 
+
+         
+
+        Do While Mid(x, Count, 1) <> " " 
+
+            Range("E" & I).Value = Range("E" & I).Value & Mid(x, Count, 1) 
+
+            Count = Count + 1 
+
+        Loop 
+
+         
+
+        Count = Count + 1 
+
+         
+
+        If Range("E" & I).Value = "Mixte" Then 
+
+            Range("E" & I).Value = "Mixte Hab" 
+
+            Count = Count + 4 
+
+        End If 
+
+         
+
+        Do While Mid(x, Count, 1) <> " " 
+
+            Range("F" & I).Value = Range("F" & I).Value & Mid(x, Count, 1) 
+
+            Count = Count + 1 
+
+        Loop 
+
+         
+
+        Count2 = Count + 1 
+
+         
+
+        Do While Mid(x, Count2, 1) <> " " And IsNumeric(Mid(x, Count2, 1)) 
+
+            Range("G" & I).Value = Range("G" & I).Value & Mid(x, Count2, 1) 
+
+            Count2 = Count2 + 1 
+
+        Loop 
+
+         
+
+        Count2 = Count2 + 1 
+
+         
+
+        Do While Mid(x, Count2, 1) <> " " And IsNumeric(Mid(x, Count2, 1)) 
+
+            Range("H" & I).Value = Range("H" & I).Value & Mid(x, Count2, 1) 
+
+            Count2 = Count2 + 1 
+
+        Loop 
+
+         
+
+        Count2 = Count2 + 1 
+
+         
+
+        Do While Mid(x, Count2, 1) <> " " And Not IsNumeric(Mid(x, Count2, 1)) 
+
+            Range("I" & I).Value = Range("I" & I).Value & Mid(x, Count2, 1) 
+
+            Count2 = Count2 + 1 
+
+        Loop 
+
+         
+
+        Count2 = Count2 + 1 
+
+         
+
+        If Mid(x, Count2, 3) = "non" Or Mid(x, Count2, 3) = "oui" Then 
+
+            Range("J" & I).Value = "" 
+
+            Range("K" & I).Value = "" 
+
+        Else 
+
+            Do While Mid(x, Count2, 1) <> " " And Not IsNumeric(Mid(x, Count2, 1)) 
+
+                Range("J" & I).Value = CStr(Range("J" & I).Value) & Mid(x, Count2, 1) 
+
+                Count2 = Count2 + 1 
+
+            Loop 
+
+             
+
+            Do While Mid(x, Count2, 1) = " " Or IsNumeric(Mid(x, Count2, 1)) Or Mid(x, Count2, 1) = "," Or (Asc(Mid(x, Count2, 1)) > 96 And Asc(Mid(x, Count2, 1)) < 123) 
+
+                Range("K" & I).Value = CStr(Range("K" & I).Value) & Mid(x, Count2, 1) 
+
+                Count2 = Count2 + 1 
+
+            Loop 
+
+        End If 
+
+         
+
+        If Mid(x, Count2, 3) = "non" Then 
+
+            Range("L" & I).Value = "non" 
+
+        Else 
+
+            Range("L" & I).Value = "non" 
+
+        End If 
+
+  
+
+        Count = 1 
+
+    Next 
+
+  
+
+End Sub 
