@@ -1,0 +1,109 @@
+Sub Trie_Nom_Ordonné() 
+
+     
+
+ answer = MsgBox("Le Programme vas renommer les fichier d'une manière spécifique, si jamais celui viendrai à prendre la mauvaise information, vous pouvez modifier cela en regardant le code..." & Chr(13) & Chr(10) & Chr(13) & Chr(10) & " Pour que celui-ci fonctionne bien il faut que les fichiers soit ordonnées avec dans leurs noms un chiffre en tout premier qui aura permis de les trier, de plus il faudra adaptait le code selon le premier numéro de facture ! " & Chr(13) & Chr(10) & Chr(13) & Chr(10) & "Voulez-vous continuer ?", vbQuestion + vbYesNo + vbDefaultButton2, "Attention Près-requis") 
+
+     
+
+If answer = vbYes Then 
+
+        Application.ScreenUpdating = False 
+
+         
+
+        Dim ws As Worksheet 
+
+        Dim PDF_path As String, PDF_Path2 As String 
+
+        Dim I As Integer 
+
+        Dim debut As Integer 
+
+         
+
+        debut = InputBox("Veuillez saisir le nombre du début" & Chr(13) & Chr(10) & Chr(13) &  Chr(10) & "Exemple le premier nom du fichier est 1_PDFsam_*** FACTURES *** 2T2021 et sont numéro de facture est 21-0010617 veuillez choisir comme valeur à entrer             10616 (le programme ne pourra trier que jusqu'à 21-009999 après il faudra modifier le                programme) ", "Attention") 
+
+         
+
+        Set inputFileDialog = Application.FileDialog(msoFileDialogFolderPicker) 
+
+     
+
+        With inputFileDialog 
+
+            .Title = "Select Folder to Start with" 
+
+            .AllowMultiSelect = True 
+
+            If .Show = False Then Exit Sub 
+
+            folderChosenPath = .SelectedItems(1) 
+
+        End With 
+
+     
+
+        PDF_path = folderChosenPath 
+
+     
+
+        If Right(PDF_path, 1) <> "\" Then 
+
+            PDF_path = PDF_path & "\" 
+
+        End If 
+
+         
+
+        sFileName = Dir(PDF_path & "*.pdf") 
+
+         
+
+        I = 0 
+
+         
+
+        Do While Len(sFileName) > 0 
+
+             
+
+            Final = PDF_path & sFileName 
+
+             
+
+           'Si vous voulez changer de nom, vous avez juste à modifier la variable nom ou/et I ci-dessous 
+
+‘Ici je prend la premiere valeur qui apparait dans le nom du fichier qui était 1_PDFsam_**** FACTURES **** 2T2021 et je lui ajoute 10664 car ils sont déjà ordonnés 
+
+ 
+
+            I = Val(sFileName) + debut 
+
+           
+
+'J'avais une répétition avec le 1er cas ducoup j'ai rajouté une condition pour vérifier que c'est la premiere fois ou non qu'on le modifier 
+
+ 
+
+            If Mid(sFileName, 3, 1) <> "-" Then 
+
+                nom = "21-00" + CStr(I) + ".pdf" 
+
+                Name Final As PDF_path & nom 
+
+            End If 
+
+             
+
+            sFileName = Dir() 
+
+             
+
+        Loop 
+
+    End If 
+
+End Sub 
+
+ 
