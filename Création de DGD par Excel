@@ -1,0 +1,83 @@
+Sub traitement() 
+
+Application.ScreenUpdating = False 
+
+Application.DisplayAlerts = False 
+
+  
+
+Dim imo As String 
+
+Dim tiers As String 
+
+Dim a As Integer 
+
+Dim FolderPath As String 
+
+  
+
+FolderPath = Application.ActiveWorkbook.Path 
+
+  
+
+    For I = 1 To 175 
+
+        Sheets("List").Select 
+
+            imo = Range("A" & I).Value 
+
+            tiers = Range("B" & I).Value 
+
+         
+
+        Sheets("Compagny").Select 
+
+            Range("B2").Value = imo 
+
+            Range("C10").Value = tiers 
+
+         
+
+        imo = Right(imo, Len(imo) - 8) 
+
+        tiers = Right(tiers, Len(tiers) - 10) 
+
+  
+
+        If Len(imo) > 15 Then 
+
+            imo = Left(imo, 15) 
+
+        End If 
+
+         
+
+        If Len(tiers) > 15 Then 
+
+            tiers = Left(tiers, 15) 
+
+        End If 
+
+ 
+
+        Sheets("Compagny").Copy After:=Sheets(Sheets.Count) 
+
+        Sheets(Sheets.Count).Select 
+
+        Sheets(Sheets.Count).Name = Replace(imo, "/", "-") + "_" + tiers 
+
+        
+
+        Worksheets(Sheets.Count).ExportAsFixedFormat Type:=xlTypePDF, Filename:=FolderPath & "\" & _ 
+
+        Worksheets(Sheets.Count).Name, openafterpublish:=False 
+
+        Worksheets(Sheets.Count).Delete 
+
+        
+
+     Next 
+
+  
+
+End Sub 
